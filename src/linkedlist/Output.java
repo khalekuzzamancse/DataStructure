@@ -9,10 +9,6 @@ public class Output {
         list.addToFirst("Babul2");
         list.addToFirst("Babul1");
         list.addToLast("Babul3");
-        list.insert("babul0",0);
-        list.insert("babbul4",4);
-        list.insert("ba",2);
-        list.deleteLast();
         list.traverse();
     }
 }

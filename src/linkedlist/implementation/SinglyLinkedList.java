@@ -129,11 +129,28 @@ public class SinglyLinkedList<T> implements MyLinkedList<T> {
         Node nodeBeforeTail=getTheNodeAt(size-1);
         updateNextOf(nodeBeforeTail,null);
         updateTail(nodeBeforeTail);
+        decreaseSize();
     }
 
     @Override
     public void delete(int position) {
-
+        boolean isOutOfBound=(position<0||position>=size);
+        if(isOutOfBound){
+            return;
+        }
+        boolean isThisFirstNode=position==0;
+        if(isThisFirstNode){
+            deleteFirst();
+            return;
+        }
+        boolean isThisLastNode=position==size-1;
+        if (isThisLastNode){
+            deleteLast();
+            return;
+        }
+        Node nodeBeforePosition=getTheNodeAt(position-1);
+        Node newNextOfNodeBeforePosition=nodeBeforePosition.next.next;
+        updateNextOf(nodeBeforePosition,newNextOfNodeBeforePosition);
     }
 
 
