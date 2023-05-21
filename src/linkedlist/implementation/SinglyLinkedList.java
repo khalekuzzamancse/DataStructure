@@ -121,36 +121,51 @@ public class SinglyLinkedList<T> implements MyLinkedList<T> {
         //Steps:
         //1.if there is only one node then it is first ,and it is the last node
         //1.the node before the tail,will become the new tail
-        boolean isOnlyOneNode=size<=1;
-        if ((isOnlyOneNode)){
+        boolean isOnlyOneNode = size <= 1;
+        if ((isOnlyOneNode)) {
             deleteFirst();
             return;
         }
-        Node nodeBeforeTail=getTheNodeAt(size-1);
-        updateNextOf(nodeBeforeTail,null);
+        Node nodeBeforeTail = getTheNodeAt(size - 1);
+        updateNextOf(nodeBeforeTail, null);
         updateTail(nodeBeforeTail);
         decreaseSize();
     }
 
     @Override
     public void delete(int position) {
-        boolean isOutOfBound=(position<0||position>=size);
-        if(isOutOfBound){
+        boolean isOutOfBound = (position < 0 || position >= size);
+        if (isOutOfBound) {
             return;
         }
-        boolean isThisFirstNode=position==0;
-        if(isThisFirstNode){
+        boolean isThisFirstNode = position == 0;
+        if (isThisFirstNode) {
             deleteFirst();
             return;
         }
-        boolean isThisLastNode=position==size-1;
-        if (isThisLastNode){
+        boolean isThisLastNode = position == size - 1;
+        if (isThisLastNode) {
             deleteLast();
             return;
         }
-        Node nodeBeforePosition=getTheNodeAt(position-1);
-        Node newNextOfNodeBeforePosition=nodeBeforePosition.next.next;
-        updateNextOf(nodeBeforePosition,newNextOfNodeBeforePosition);
+        Node nodeBeforePosition = getTheNodeAt(position - 1);
+        Node newNextOfNodeBeforePosition = nodeBeforePosition.next.next;
+        updateNextOf(nodeBeforePosition, newNextOfNodeBeforePosition);
+        decreaseSize();
+    }
+
+    @Override
+    public int find(T value) {
+        Node current = head;
+        for (int currentIndex = 0; currentIndex < size; currentIndex++) {
+            boolean isValueMatched = current.value == value;
+            if (isValueMatched) {
+                return currentIndex;
+            }
+            current = current.next;
+        }
+        //if not found,return 1
+        return -1;
     }
 
 

@@ -11,6 +11,7 @@ public interface MyLinkedList<T> {
     void deleteFirst();
     void deleteLast();
     void delete(int position);
+    int find(T value);
 
     boolean isEmpty();
 }

@@ -10,5 +10,6 @@ public class Output {
         list.addToFirst("Babul1");
         list.addToLast("Babul3");
         list.traverse();
+        System.out.println(list.find("Babul4"));
     }
 }
