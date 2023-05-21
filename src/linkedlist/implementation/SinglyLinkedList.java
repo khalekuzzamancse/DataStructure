@@ -164,7 +164,7 @@ public class SinglyLinkedList<T> implements MyLinkedList<T> {
             }
             current = current.next;
         }
-        //if not found,return 1
+        //if not found,return -1
         return -1;
     }
 
