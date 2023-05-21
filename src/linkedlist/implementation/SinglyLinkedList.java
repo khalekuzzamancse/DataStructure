@@ -59,18 +59,46 @@ public class SinglyLinkedList<T> implements MyLinkedList<T> {
 
     @Override
     public void addToLast(T value) {
+        //Steps:
+        //1.If the list is empty then it is going to the first node of list
+        //2.Otherwise, the Node become the last(tail) node
+        //3.So the new node need to linked with the old tail node
+        //4.the tail node need to update with the new tail node
+        //5.increase the size of the list by 1
+
         if (isEmpty()) {
             addToFirst(value);
             return;
         }
-        //the new node become the last node
-        //so the new node is linked with the tail
         Node node = createNodeWithNext(value, null);
         updateNextOf(tail, node);
         updateTail(node);
         increaseSize();
-        //updating the tail because the new node become the tail
+    }
 
+    @Override
+    public void insert(T value, int position) {
+        //Steps:
+        //1.if the position==1 that means the new node will become head node
+        //2.if the position==size that means the new node become the tail node
+        //3.otherwise we have to go the node that has the position-1==given position
+        //then we have to update the nextNode of the position-1 with the new node
+        //and, we have to update the nextNode of the newNode with  the node at position
+        //increase the size by 1
+        boolean shouldAddToFirst = position == 0;
+        if (shouldAddToFirst) {
+            addToFirst(value);
+            return;
+        }
+        boolean shouldAddToLast = position == size;
+        if (shouldAddToLast) {
+            addToLast(value);
+            return;
+        }
+        Node nodeAtPosition = getTheNodeAt(position);
+        Node newNode = createNodeWithNext(value, nodeAtPosition.next);
+        updateNextOf(nodeAtPosition, newNode);
+        increaseSize();
 
     }
 
@@ -82,6 +110,14 @@ public class SinglyLinkedList<T> implements MyLinkedList<T> {
 
     private void updateTail(Node node) {
         tail = node;
+    }
+
+    private Node getTheNodeAt(int position) {
+        Node current = head;
+        for (int i = 1; i < position; i++) {
+            current = current.next;
+        }
+        return current;
     }
 
     private void updateNextOf(Node node, Node nextNode) {
