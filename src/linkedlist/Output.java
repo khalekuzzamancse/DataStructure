@@ -12,6 +12,7 @@ public class Output {
         list.insert("babul0",0);
         list.insert("babbul4",4);
         list.insert("ba",2);
+        list.deleteLast();
         list.traverse();
     }
 }

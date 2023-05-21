@@ -102,10 +102,44 @@ public class SinglyLinkedList<T> implements MyLinkedList<T> {
 
     }
 
+    @Override
+    public void deleteFirst() {
+        //Steps:
+        //1.2nd node become the head
+        //2.if the list become empty the tail become null
+        //3.decrease the size
+        updateHead(head.next);
+        if (isEmpty()) {
+            updateTail(null);
+        }
+        decreaseSize();
+
+    }
+
+    @Override
+    public void deleteLast() {
+        //Steps:
+        //1.if there is only one node then it is first ,and it is the last node
+        //1.the node before the tail,will become the new tail
+        boolean isOnlyOneNode=size<=1;
+        if ((isOnlyOneNode)){
+            deleteFirst();
+            return;
+        }
+        Node nodeBeforeTail=getTheNodeAt(size-1);
+        updateNextOf(nodeBeforeTail,null);
+        updateTail(nodeBeforeTail);
+    }
+
+    @Override
+    public void delete(int position) {
+
+    }
+
 
     @Override
     public boolean isEmpty() {
-        return tail == null;
+        return (tail == null || head == null);
     }
 
     private void updateTail(Node node) {
@@ -128,6 +162,10 @@ public class SinglyLinkedList<T> implements MyLinkedList<T> {
         Node node = new Node(value);
         node.next = nextNode;
         return node;
+    }
+
+    private void decreaseSize() {
+        size--;
     }
 
 

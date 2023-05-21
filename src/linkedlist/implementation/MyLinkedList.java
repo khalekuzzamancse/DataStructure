@@ -8,6 +8,9 @@ public interface MyLinkedList<T> {
     void addToLast(T value);
 
     void insert(T value, int position);
+    void deleteFirst();
+    void deleteLast();
+    void delete(int position);
 
     boolean isEmpty();
 }
