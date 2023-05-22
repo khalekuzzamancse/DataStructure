@@ -1,15 +1,17 @@
 package linkedlist;
 
+import linkedlist.implementation.DoublyLinkedList;
 import linkedlist.implementation.MyLinkedList;
 import linkedlist.implementation.SinglyLinkedList;
 
 public class Output {
     public static void main(String[] args) {
-        MyLinkedList<String> list = new SinglyLinkedList<>();
-        list.addToFirst("Babul2");
-        list.addToFirst("Babul1");
-        list.addToLast("Babul3");
-        list.traverse();
-        System.out.println(list.find("Babul4"));
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+        list.addToFirst(10);
+        list.addToFirst(9);
+        list.addToFirst(8);
+       list.traverse();
+      //  list.traverseReverse();
+
     }
 }
