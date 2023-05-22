@@ -122,8 +122,8 @@ public class DoublyLinkedList<T> implements MyLinkedList<T> {
         Node node = tail.prev;
         updateTail(node);
         decreaseSize();
-        //after deleting if there is only node node
-        //then the only node become the head also
+        // 4: after deleting if there is only node
+        // 4 : then the only node become the head also
         if (hasOnlyOneNode()) {
             updateHead(node);
         }
