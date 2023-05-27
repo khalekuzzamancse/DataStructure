@@ -1,4 +1,4 @@
-package linkedlist.implementation;
+package main.implementation;
 
 public class SinglyLinkedList<T> implements MyLinkedList<T> {
     private Node head = null;

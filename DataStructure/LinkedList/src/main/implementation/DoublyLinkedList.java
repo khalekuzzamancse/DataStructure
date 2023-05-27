@@ -1,4 +1,5 @@
-package linkedlist.implementation;
+package main.implementation;
+
 
 public class DoublyLinkedList<T> implements MyLinkedList<T> {
     private class Node {
@@ -28,18 +29,18 @@ public class DoublyLinkedList<T> implements MyLinkedList<T> {
     public void addToFirst(T value) {
         Node node = new Node(value);
         if (isEmpty()) {
-            updateHead(node);
-            updateTail(node);
+            makeItOnlyNode(node);
         } else {
             updateNextOf(node, head);
             updatePrevOf(head, node);
-            updateHead(node);
+            updateHeadBy(node);
         }
         increaseSize();
     }
 
     @Override
     public void traverse() {
+        System.out.println("Size: " + size);
         Node current = head;
         for (int index = 0; index < size; index++) {
             System.out.println(current.value);
@@ -63,21 +64,43 @@ public class DoublyLinkedList<T> implements MyLinkedList<T> {
         }
         Node node = new Node(value);
         //Steps:
-        //1.new node next will be null because it will become tail
-        //2.new node prev will be the old tail
+        //1.new node "next" points to null because it will become tail
+        //2.new node "prev" will be the old tail
         //3.the old tail next will be the new node
         //4.tail will be replaced by the new node
         //5.size will be increase
         updatePrevOf(node, tail);
         updateNextOf(node, null);
         updateNextOf(tail, node);
-        updateTail(node);
+        updateTailBy(node);
         increaseSize();
     }
 
     @Override
     public void insert(T value, int position) {
-
+        //Steps:
+        //If the position is out box bound then just return
+        if (isOutOfBound(position)) {
+            return;
+        }
+        if (isFirstPosition(position)) {
+            addToFirst(value);
+            return;
+        }
+        if (isLastPosition(position)) {
+            addToLast(value);
+            return;
+        }
+        //Steps:
+        //Get the node at the position-1 (let X)and position(Y)
+        //replace the "next" of  X by new node
+        //replace the prev of Y using new node
+        //increase the list size
+        Node node = new Node(value);
+        Node x = goFromHeadAt(position - 1);
+        Node y = x.next;
+        makeItMiddleNode(x, node, y);
+        increaseSize();
     }
 
     @Override
@@ -97,7 +120,7 @@ public class DoublyLinkedList<T> implements MyLinkedList<T> {
         // 2: make the 2nd node as the head
         // 3: decrease the size
         Node node = head.next;
-        updateHead(node);
+        updateHeadBy(node);
         decreaseSize();
         //But what is after deletion there left only 1 node in the list
         //then the only node become the tail
@@ -120,18 +143,43 @@ public class DoublyLinkedList<T> implements MyLinkedList<T> {
         // 2: Make the picked node as tail
         // 3:Decrease the size
         Node node = tail.prev;
-        updateTail(node);
+        updateTailBy(node);
         decreaseSize();
         // 4: after deleting if there is only node
         // 4 : then the only node become the head also
         if (hasOnlyOneNode()) {
-            updateHead(node);
+            updateHeadBy(node);
         }
     }
 
     @Override
     public void delete(int position) {
+        if (isOutOfBound(position)) {
+            return;
+        }
+        if (isFirstPosition(position)) {
+            deleteFirst();
+            return;
+        }
+        if (isLastPosition(position)) {
+            deleteLast();
+            return;
+        }
+        //Get the node at the position(target)
+        //then get the node before the target(before)
+        //get after the node after the target(after)
+        //then remove the target(middle)
+        //decrease the size
+        Node target = goFromHeadAt(position);
+        Node before = target.prev;
+        Node after = target.next;
+        removeAsMiddle(before, target, after);
+        decreaseSize();
+    }
 
+    private void removeAsMiddle(Node before, Node target, Node after) {
+        before.next = after;
+        after.prev = before;
     }
 
     @Override
@@ -144,7 +192,7 @@ public class DoublyLinkedList<T> implements MyLinkedList<T> {
         return (head == null || tail == null);
     }
 
-    private Node getNodeAtPosition(int position) {
+    private Node getNodeAtPositionForDelete(int position) {
         Node node;
         boolean isNearFromHead = (position <= size / 2);
         if (isNearFromHead) {
@@ -155,9 +203,10 @@ public class DoublyLinkedList<T> implements MyLinkedList<T> {
         return node;
     }
 
+
     private Node goFromHeadAt(int position) {
-        Node current = head;
-        for (int index = 0; index <= position; index++) {
+        Node current = head;//node at position 0
+        for (int index = 1; index <= position; index++) {
             current = current.next;
         }
         return current;
@@ -182,20 +231,20 @@ public class DoublyLinkedList<T> implements MyLinkedList<T> {
     private void makeItOnlyNode(Node node) {
         updatePrevOf(node, null);
         updateNextOf(node, null);
-        updateHead(node);
-        updateTail(node);
+        updateHeadBy(node);
+        updateTailBy(node);
     }
 
     private void decreaseSize() {
         size--;
     }
 
-    private void updateHead(Node newHead) {
+    private void updateHeadBy(Node newHead) {
         newHead.prev = null;
         this.head = newHead;
     }
 
-    private void updateTail(Node newTail) {
+    private void updateTailBy(Node newTail) {
         newTail.next = null;
         this.tail = newTail;
     }
@@ -208,26 +257,35 @@ public class DoublyLinkedList<T> implements MyLinkedList<T> {
         node.prev = prev;
     }
 
-    private void updateNextAndPrev(Node node, Node next, Node prev) {
+    private void updateNextAndPrevOf(Node node, Node next, Node prev) {
         updateNextOf(node, next);
         updatePrevOf(node, prev);
-    }
-
-    private Node createAsHead(T value) {
-        Node node = new Node(value);
-        updatePrevOf(node, null);
-        return node;
-    }
-
-    private Node createAsTail(T value) {
-        Node node = new Node(value);
-        updateNextOf(node, null);
-        return node;
     }
 
     private void makeListEmpty() {
         head = null;
         tail = null;
         size = 0;
+    }
+
+    private boolean isOutOfBound(int position) {
+        return (position < 0 || position >= size);
+    }
+
+    private boolean isFirstPosition(int position) {
+        return position == 0;
+    }
+
+    private boolean isLastPosition(int position) {
+        return position == size - 1;
+    }
+
+    private void makeItMiddleNode(Node before, Node middle, Node after) {
+        //left side connecting
+        before.next = middle;
+        middle.prev = before;
+        //right side connection
+        after.prev = middle;
+        middle.next = after;
     }
 }

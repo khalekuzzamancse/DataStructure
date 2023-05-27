@@ -1,8 +1,5 @@
-package linkedlist;
+package main.implementation;
 
-import linkedlist.implementation.DoublyLinkedList;
-import linkedlist.implementation.MyLinkedList;
-import linkedlist.implementation.SinglyLinkedList;
 
 public class Output {
     public static void main(String[] args) {
@@ -11,6 +8,8 @@ public class Output {
         list.addToFirst(9);
         list.addToLast(11);
         list.addToLast(12);
+        list.insert(13, 3);
+        list.delete(3);
         list.traverse();
 
     }

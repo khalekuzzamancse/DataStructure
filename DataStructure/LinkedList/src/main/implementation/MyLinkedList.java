@@ -1,4 +1,4 @@
-package linkedlist.implementation;
+package main.implementation;
 
 public interface MyLinkedList<T> {
     void addToFirst(T value);
