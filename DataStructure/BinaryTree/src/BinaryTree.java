@@ -1,87 +1,79 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 public abstract class BinaryTree<T> {
-    protected Node root;
-
-    private class Node {
-        private Node leftChild;
-        private Node rightChild;
-        private T data;
-
-        public Node(T data) {
-            this.leftChild = null;
-            this.rightChild = null;
-            this.data = data;
-        }
-
-    }
+    protected Node<T> root;
 
     public BinaryTree() {
         this.root = null;
     }
 
-    protected boolean isItLeafNode(Node node) {
-        return (node.leftChild == null && node.rightChild == null);
+    protected Node<T> getEndNode() {
+        Queue<Node<T>> queue = new LinkedList<>();
+        Node<T> lastLeaf = root;
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            Node<T> current = queue.remove();
+            if (!current.hasLeftChild() || !current.hasRightChild()) {
+                lastLeaf=current;
+                System.out.println("Leaf:"+lastLeaf.getData());
+                return lastLeaf;
+            }
+         addChildToQueue(queue, current);
+
+        }
+        System.out.println("Leaf:"+lastLeaf.getData());
+        return lastLeaf;
     }
+
+    protected void addChildToQueue(Queue<Node<T>> queue, Node<T> parent) {
+        if (parent.hasLeftChild()) {
+            queue.add(parent.getLeftChild());
+        }
+        if (parent.hasRightChild()) {
+            queue.add(parent.getRightChild());
+        }
+    }
+
+    public abstract void insert(T data);
+
+    public abstract void traverse();
+
+
+    protected void updateRoot(Node<T> newRoot) {
+        this.root = newRoot;
+    }
+
 
     protected boolean isEmpty() {
         return (root == null);
     }
 
-    protected void updateLeftChildOf(Node parent, Node leftChild) {
-        if (parent != null) {
-            parent.leftChild = leftChild;
-        }
+
+    protected void removeLeftChildOf(Node<T> parent) {
+
     }
 
-    protected void updateRightChildOf(Node parent, Node rightChild) {
-        if (parent != null) {
-            parent.rightChild = rightChild;
-        }
+    protected void removeRightChildOf(Node<T> parent) {
+
     }
 
-    protected void updateBothChildOf(Node parent, Node leftChild, Node rightChild) {
-        if (parent != null) {
-            parent.leftChild = leftChild;
-            parent.rightChild = rightChild;
-        }
+    protected void removeBothChildOf(Node<T> parent) {
+
     }
 
-    protected void removeLeftChildOf(Node parent) {
-        if (parent != null) {
-            parent.leftChild = null;
-        }
+
+    protected Node<T> creteNodeNoChild(T data) {
+        return Node.createNodeWithNoChild(data);
     }
 
-    protected void removeRightChildOf(Node parent) {
-        if (parent != null) {
-            parent.rightChild = null;
-        }
+    protected Node<T> getRoot() {
+        return root;
     }
 
-    protected void removeBothChildOf(Node parent) {
-        if (parent != null) {
-            parent.leftChild = null;
-            parent.rightChild = null;
-        }
+    public T getRootData() {
+        return root.getData();
     }
 
-    protected Node creteNodeWithLeftChild(T data, Node leftChild) {
-        Node node = new Node(data);
-        node.leftChild = leftChild;
-        node.rightChild = null;
-        return node;
-    }
-
-    protected Node creteNodeWithRightChild(T data, Node rightChild) {
-        Node node = new Node(data);
-        node.leftChild = null;
-        node.rightChild = rightChild;
-        return node;
-    }
-
-    protected Node creteNodeWithBothChild(T data, Node leftChild, Node rightChild) {
-        Node node = new Node(data);
-        node.leftChild = leftChild;
-        node.rightChild = rightChild;
-        return node;
-    }
 }
+
