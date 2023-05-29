@@ -55,10 +55,34 @@ public class MyBinaryTree<T> extends BinaryTree<T> {
     }
 
     public void visualizeTree() {
-        BinaryTreePrinter<T> printer = new BinaryTreePrinter<>(root);
-        printer.printBinaryTree();
+        Queue<Node<T>> queue = new LinkedList<>();
+        /*
+        if tree is empty do nothing
+         */
+        if (isEmpty()) {
+            return;
+        }
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            Node<T> current = queue.remove();
+            printNodeData(current);
+            addChildToQueue(queue, current);
+        }
     }
+    private void printParentWithChild(Node<T> node) {
 
+        System.out.print(node.getData());
+        System.out.print(":( ");
+
+        if (node.hasLeftChild()) {
+            System.out.print(node.getLeftChild().getData());
+        }
+        System.out.print(", ");
+        if (node.hasRightChild()) {
+            System.out.print(node.getRightChild().getData());
+        }
+        System.out.println(" )");
+    }
     private void printNodeData(Node<T> node) {
 
         System.out.print(node.getData());
