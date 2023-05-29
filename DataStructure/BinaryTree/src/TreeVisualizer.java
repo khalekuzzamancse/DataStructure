@@ -8,16 +8,20 @@ public class TreeVisualizer<T> {
     private final BinaryTree<T> tree;
     private final List<T> nodes;
 
+
     public TreeVisualizer(int levels, BinaryTree<T> tree) {
         this.tree = tree;
         matrix = new TreePrintingMatrixGenerator(levels).getMatrix();
         nodes = new ArrayList<>();
+        //
+
+
     }
 
     public void visualize() {
         visualizeTree();
-        placeIntoMatrix();
-        printOnlyNodePosition();
+        printStringMatrix(convertMatrixToString());
+
     }
 
     private void visualizeTree() {
@@ -37,33 +41,44 @@ public class TreeVisualizer<T> {
         }
     }
 
-    private void placeIntoMatrix() {
-//        System.out.println(nodes);
-        int cnt = 0;
+
+    private String[][] convertMatrixToString() {
+        int rows = matrix.length;
         int cols = matrix[0].length;
-        for (int[] ints : matrix) {
-            for (int col = 0; col < cols; col++) {
-                if (ints[col] == 1) {
+        String[][] stringMatrix = new String[rows][cols];
+        int cnt = 0;
 
-                    if (cnt < nodes.size()) {
-                        ints[col] = (int) nodes.get(cnt);
-                        cnt++;
-                    }
-                    else{
-                        ints[col] = 0;
-                    }
-
-                    // System.out.print(ints[col] + " ");
+        for (int i = 0; i < rows; i++) {
+            String fillBlankCellWith = ".";
+            for (int j = 0; j < cols; j++) {
+                if (matrix[i][j] == 0) {
+                    stringMatrix[i][j] = fillBlankCellWith;
                 } else {
-                    // System.out.print(" " + " ");
-                }
+                    if (cnt < nodes.size()) {
+                        stringMatrix[i][j] = nodes.get(cnt).toString();
+                        cnt++;
+                    } else {
+                        stringMatrix[i][j] = fillBlankCellWith;
+                    }
 
+                }
+            }
+        }
+        return stringMatrix;
+    }
+
+    private static void printStringMatrix(String[][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                System.out.print(matrix[i][j] + " ");
             }
             System.out.println();
         }
-
-        // System.out.println(nodes);
     }
+
 
     private void printOnlyNodePosition() {
         int rows = matrix.length;

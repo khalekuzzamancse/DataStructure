@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class TreePrintingMatrixGenerator {
+public class TreeVisualizerMatrix {
     private final int[][] matrix;
 
-    TreePrintingMatrixGenerator(int treeTotalLevels) {
+    TreeVisualizerMatrix(int treeTotalLevels) {
         int lastLevelTotalChild = (int) Math.pow(2, treeTotalLevels - 1);
         int totalCellInLastLevel = (2 * lastLevelTotalChild) - 1;
 
@@ -33,7 +33,6 @@ public class TreePrintingMatrixGenerator {
 
         for (int[] ints : matrix) {
             for (int col = 0; col < cols; col++) {
-
                 System.out.print(ints[col] + " ");
             }
             System.out.println();
