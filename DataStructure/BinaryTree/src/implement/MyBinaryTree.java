@@ -1,11 +1,13 @@
 package implement;
 
 import utils.TreeVisualizer;
+import utils.TreeVisualizerImp;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class MyBinaryTree<T> extends MyBinaryTreeA<T> {
+
 
     @Override
     public void insert(T data) {
@@ -66,9 +68,7 @@ public class MyBinaryTree<T> extends MyBinaryTreeA<T> {
     }
 
     @Override
-    public void visualizeTree(String blankCellValue) {
-        TreeVisualizer<T> visualizer =
-                new TreeVisualizer<>(this, blankCellValue);
+    public void visualizeTree(TreeVisualizer visualizer) {
         visualizer.visualize();
     }
 

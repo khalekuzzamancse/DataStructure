@@ -1,5 +1,7 @@
 package implement;
 
+import utils.TreeVisualizer;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -80,7 +82,7 @@ public abstract class MyBinaryTreeA<T> {
     public T getRootData() {
         return root.getData();
     }
-    protected void visualizeTree(String blankCellValue) {
+    protected void visualizeTree(TreeVisualizer visualizer) {
 
     }
 
