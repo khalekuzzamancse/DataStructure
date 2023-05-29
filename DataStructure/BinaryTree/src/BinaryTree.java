@@ -16,7 +16,7 @@ public abstract class BinaryTree<T> {
             Node<T> current = queue.remove();
             if (!current.hasLeftChild() || !current.hasRightChild()) {
                 lastLeaf=current;
-                System.out.println("Leaf:"+lastLeaf.getData());
+//                System.out.println("Leaf:"+lastLeaf.getData());
                 return lastLeaf;
             }
          addChildToQueue(queue, current);

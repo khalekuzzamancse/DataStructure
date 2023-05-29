@@ -24,12 +24,12 @@ public class MyBinaryTree<T> extends BinaryTree<T> {
         Node<T> lastLeaf = getEndNode();
         if (!lastLeaf.hasLeftChild()) {
             lastLeaf.updateLeftChild(node);
-            System.out.println(data + ":" + "Added Left of " + lastLeaf.getData());
+          //  System.out.println(data + ":" + "Added Left of " + lastLeaf.getData());
             return;
         }
         if (!lastLeaf.hasRightChild()) {
             lastLeaf.updateRightChild(node);
-            System.out.println(data + ":" + "Added Right of " + lastLeaf.getData());
+           // System.out.println(data + ":" + "Added Right of " + lastLeaf.getData());
             return;
         }
 
@@ -70,7 +70,6 @@ public class MyBinaryTree<T> extends BinaryTree<T> {
         }
     }
     private void printParentWithChild(Node<T> node) {
-
         System.out.print(node.getData());
         System.out.print(":( ");
 
