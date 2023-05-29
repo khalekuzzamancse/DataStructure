@@ -1,10 +1,16 @@
+package implement;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
-public abstract class BinaryTree<T> {
-    protected Node<T> root;
+public abstract class MyBinaryTreeA<T> {
+    public Node<T> root;
+    protected int totalNode = 0;
+    public int getTotalLevel(){
+        return (int) Math.ceil(Math.log(totalNode) / Math.log(2));
+    }
 
-    public BinaryTree() {
+    public MyBinaryTreeA() {
         this.root = null;
     }
 
@@ -15,14 +21,14 @@ public abstract class BinaryTree<T> {
         while (!queue.isEmpty()) {
             Node<T> current = queue.remove();
             if (!current.hasLeftChild() || !current.hasRightChild()) {
-                lastLeaf=current;
+                lastLeaf = current;
 //                System.out.println("Leaf:"+lastLeaf.getData());
                 return lastLeaf;
             }
-         addChildToQueue(queue, current);
+            addChildToQueue(queue, current);
 
         }
-        System.out.println("Leaf:"+lastLeaf.getData());
+        System.out.println("Leaf:" + lastLeaf.getData());
         return lastLeaf;
     }
 
@@ -45,7 +51,7 @@ public abstract class BinaryTree<T> {
     }
 
 
-    protected boolean isEmpty() {
+    public boolean isEmpty() {
         return (root == null);
     }
 
@@ -74,6 +80,10 @@ public abstract class BinaryTree<T> {
     public T getRootData() {
         return root.getData();
     }
+    protected void visualizeTree(String blankCellValue) {
+
+    }
+
 
 }
 

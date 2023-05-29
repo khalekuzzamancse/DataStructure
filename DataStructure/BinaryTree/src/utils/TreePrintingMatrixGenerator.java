@@ -1,28 +1,33 @@
+package utils;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class TreePrintingMatrixGenerator {
-    private final int[][] matrix;
+    private final String[][] matrix;
+    private final String NODE_CELL_VALUE = "1";
+    private final String BLANK_CELL_VALUE = "0";
 
     TreePrintingMatrixGenerator(int treeTotalLevels) {
         int lastLevelTotalChild = (int) Math.pow(2, treeTotalLevels - 1);
         int totalCellInLastLevel = (2 * lastLevelTotalChild) - 1;
 
         //  int[][] matrix = new int[treeTotalLevels][totalCellInLastLevel];
-        this.matrix = new int[treeTotalLevels][totalCellInLastLevel];
+        this.matrix = new String[treeTotalLevels][totalCellInLastLevel];
 
 
         // Initialize the matrix with 0
         for (int row = 0; row < treeTotalLevels; row++) {
             for (int col = 0; col < totalCellInLastLevel; col++) {
-                matrix[row][col] = 0;
+                matrix[row][col] = BLANK_CELL_VALUE;
             }
         }
 
 //        printMatrix();
 //        System.out.println("\n");
         updateMatrix();
-      //  printMatrix();
+        //  printMatrix();
 
     }
 
@@ -31,7 +36,7 @@ public class TreePrintingMatrixGenerator {
         int rows = matrix.length;
         int cols = matrix[0].length;
 
-        for (int[] ints : matrix) {
+        for (String[] ints : matrix) {
             for (int col = 0; col < cols; col++) {
 
                 System.out.print(ints[col] + " ");
@@ -39,17 +44,17 @@ public class TreePrintingMatrixGenerator {
             System.out.println();
         }
     }
+
     public void printOnlyNodePosition() {
         int rows = matrix.length;
         int cols = matrix[0].length;
 
-        for (int[] ints : matrix) {
+        for (String[] ints : matrix) {
             for (int col = 0; col < cols; col++) {
-                if(ints[col]==1){
+                if (Objects.equals(ints[col], NODE_CELL_VALUE)) {
                     System.out.print(ints[col] + " ");
-                }
-                else {
-                    System.out.print(" "+" ");
+                } else {
+                    System.out.print(" " + " ");
                 }
 
             }
@@ -57,7 +62,7 @@ public class TreePrintingMatrixGenerator {
         }
     }
 
-    public int[][] getMatrix() {
+    public String[][] getMatrix() {
         return matrix;
     }
 
@@ -71,7 +76,7 @@ public class TreePrintingMatrixGenerator {
         // System.out.println(pairs);
         for (int row = rows - 2; row >= 0; row--) {
             pairs = getPreviousRowColumns(pairs);
-            updateCells( row, pairs);
+            updateCells(row, pairs);
             //  System.out.println(i + ":" + pairs);
         }
 
@@ -82,7 +87,7 @@ public class TreePrintingMatrixGenerator {
         int cols = matrix[0].length;
         List<Integer> pairs = new ArrayList<>();
         for (int col = 0; col < cols; col += 2) {
-            matrix[rows - 1][col] = 1;
+            matrix[rows - 1][col] = NODE_CELL_VALUE;
             pairs.add(col);
         }
         return pairs;
@@ -97,9 +102,17 @@ public class TreePrintingMatrixGenerator {
         return newPairs;
     }
 
-    private void updateCells( int row, List<Integer> columns) {
+    private void updateCells(int row, List<Integer> columns) {
         for (int column : columns) {
-            matrix[row][column] = 1;
+            matrix[row][column] = NODE_CELL_VALUE;
         }
+    }
+
+    public String getBLANK_CELL_VALUE() {
+        return BLANK_CELL_VALUE;
+    }
+
+    public String getNODE_CELL_VALUE() {
+        return NODE_CELL_VALUE;
     }
 }

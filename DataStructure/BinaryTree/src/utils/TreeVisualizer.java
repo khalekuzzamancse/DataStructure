@@ -1,30 +1,40 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+package utils;
+
+import implement.MyBinaryTreeA;
+import implement.Node;
+
+import java.util.*;
 
 public class TreeVisualizer<T> {
-    private final int[][] matrix;
-    private final BinaryTree<T> tree;
+    private final String[][] matrix;
+    private final MyBinaryTreeA<T> tree;
     private final List<T> nodes;
-
-
-    public TreeVisualizer(int levels, BinaryTree<T> tree) {
+    private final TreePrintingMatrixGenerator generator;
+    private final String BLANK_CELL_VALUE;
+    public TreeVisualizer(MyBinaryTreeA<T> tree) {
+        BLANK_CELL_VALUE = "*";
         this.tree = tree;
-        matrix = new TreePrintingMatrixGenerator(levels).getMatrix();
+        this.generator = new TreePrintingMatrixGenerator(tree.getTotalLevel()+1);
+        matrix = generator.getMatrix();
         nodes = new ArrayList<>();
-        //
+    }
 
-
+    public TreeVisualizer(MyBinaryTreeA<T> tree, String BLANK_CELL_VALUE) {
+        this.BLANK_CELL_VALUE = BLANK_CELL_VALUE;
+        this.tree = tree;
+        this.generator = new TreePrintingMatrixGenerator(tree.getTotalLevel()+1);
+        matrix = generator.getMatrix();
+        nodes = new ArrayList<>();
     }
 
     public void visualize() {
-        visualizeTree();
-        printStringMatrix(convertMatrixToString());
+        getTreeNodes();
+        String[][] outputTree = placeNodeIntoMatrix();
+        printStringMatrix(outputTree);
 
     }
 
-    private void visualizeTree() {
+    private void getTreeNodes() {
 
         Queue<Node<T>> queue = new LinkedList<>();
         /*
@@ -42,23 +52,22 @@ public class TreeVisualizer<T> {
     }
 
 
-    private String[][] convertMatrixToString() {
+    private String[][] placeNodeIntoMatrix() {
         int rows = matrix.length;
         int cols = matrix[0].length;
         String[][] stringMatrix = new String[rows][cols];
         int cnt = 0;
 
         for (int i = 0; i < rows; i++) {
-            String fillBlankCellWith = ".";
             for (int j = 0; j < cols; j++) {
-                if (matrix[i][j] == 0) {
-                    stringMatrix[i][j] = fillBlankCellWith;
+                if (matrix[i][j].equals(generator.getBLANK_CELL_VALUE())) {
+                    stringMatrix[i][j] = BLANK_CELL_VALUE;
                 } else {
                     if (cnt < nodes.size()) {
                         stringMatrix[i][j] = nodes.get(cnt).toString();
                         cnt++;
                     } else {
-                        stringMatrix[i][j] = fillBlankCellWith;
+                        stringMatrix[i][j] = BLANK_CELL_VALUE;
                     }
 
                 }
@@ -68,34 +77,15 @@ public class TreeVisualizer<T> {
     }
 
     private static void printStringMatrix(String[][] matrix) {
-        int rows = matrix.length;
         int cols = matrix[0].length;
-
-        for (int i = 0; i < rows; i++) {
+        for (String[] strings : matrix) {
             for (int j = 0; j < cols; j++) {
-                System.out.print(matrix[i][j] + " ");
+                System.out.print(strings[j] + " ");
             }
             System.out.println();
         }
     }
 
-
-    private void printOnlyNodePosition() {
-        int rows = matrix.length;
-        int cols = matrix[0].length;
-
-        for (int[] ints : matrix) {
-            for (int col = 0; col < cols; col++) {
-                if (ints[col] != 0) {
-                    System.out.print(ints[col] + " ");
-                } else {
-                    System.out.print(" " + " ");
-                }
-
-            }
-            System.out.println();
-        }
-    }
 
     private void addChildToQueue(Queue<Node<T>> queue, Node<T> parent) {
         if (parent.hasLeftChild()) {
