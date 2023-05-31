@@ -1,18 +1,18 @@
 package utils;
 
-import implement.MyBinaryTreeA;
+import implement.MyBinaryTree;
 import implement.Node;
 
 import java.util.*;
 
 public class TreeVisualizerImp<T> implements TreeVisualizer {
     private final String[][] matrix;
-    private final MyBinaryTreeA<T> tree;
+    private final MyBinaryTree<T> tree;
     private final List<T> nodes;
     private final TreePrintingMatrixGenerator generator;
     private final String BLANK_CELL_VALUE;
 
-    public TreeVisualizerImp(MyBinaryTreeA<T> tree) {
+    public TreeVisualizerImp(MyBinaryTree<T> tree) {
         BLANK_CELL_VALUE = "*";
         this.tree = tree;
         this.generator = new TreePrintingMatrixGenerator(tree.getTotalLevel() + 1);
@@ -20,7 +20,7 @@ public class TreeVisualizerImp<T> implements TreeVisualizer {
         nodes = new ArrayList<>();
     }
 
-    public TreeVisualizerImp(MyBinaryTreeA<T> tree, String BLANK_CELL_VALUE) {
+    public TreeVisualizerImp(MyBinaryTree<T> tree, String BLANK_CELL_VALUE) {
         this.BLANK_CELL_VALUE = BLANK_CELL_VALUE;
         this.tree = tree;
         this.generator = new TreePrintingMatrixGenerator(tree.getTotalLevel() + 1);
